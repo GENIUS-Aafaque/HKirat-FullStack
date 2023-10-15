@@ -23,4 +23,4 @@ function sort(str) {
   return arr.join("");
 }
 isAnagram("abc", "bac");
-// module.exports = isAnagram;
+module.exports = isAnagram;
