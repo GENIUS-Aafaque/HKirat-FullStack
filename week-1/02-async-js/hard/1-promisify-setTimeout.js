@@ -4,7 +4,7 @@
 
 function wait(n) {
     return new Promise((resolve, reject) => {
-        serinterval(() => {
+        setTimeout(() => {
             resolve();
         }, n * 1000)
     })
