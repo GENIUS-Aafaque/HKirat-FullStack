@@ -34,9 +34,7 @@ function calculateTime() {
     return Promise.all([waitOneSecond(), waitTwoSecond(), waitThreeSecond()])
         .then(() => {
             let end = new Date().getTime();
-            return ((end - start) / 1000);
+            console.log("Completed in : " + ((end - start) / 1000) + " seconds.");
         });
 }
-calculateTime().then((time) => {
-    console.log("Completed in : " + time + " seconds.")
-})
+calculateTime();

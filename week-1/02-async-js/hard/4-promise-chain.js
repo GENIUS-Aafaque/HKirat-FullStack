@@ -6,17 +6,50 @@
  */
 
 function waitOneSecond() {
-
+    console.log("yup");
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, 1000)
+    })
 }
 
 function waitTwoSecond() {
-
+    console.log("yup");
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, 2000)
+    })
 }
 
 function waitThreeSecond() {
-
+    console.log("yup");
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, 3000)
+    })
 }
 
-function calculateTime() {
-
+function calculateTimeSeq() {
+    let start = new Date().getTime();
+    waitOneSecond()
+        .then(() => waitTwoSecond())               //.then(waitTwoSecond)               both works the same but
+        .then(() => waitThreeSecond())             //.then(waitThreeSecond)             but acc to GPT it shouldn't
+        .then(() => {
+            let end = new Date().getTime();
+            console.log("Seq Completed in : " + ((end - start) / 1000) + " seconds.");
+        });
 }
+calculateTimeSeq();
+
+function calculateTimeAll() {
+    let start = new Date().getTime();
+    Promise.all([waitOneSecond(), waitTwoSecond(), waitThreeSecond()])
+        .then(() => {
+            let end = new Date().getTime();
+            console.log("All Completed in : " + ((end - start) / 1000) + " seconds.");
+        });
+}
+calculateTimeAll()
