@@ -3,4 +3,9 @@
 */
 
 function wait(n) {
+    return new Promise((resolve, reject) => {
+        serinterval(() => {
+            resolve();
+        }, n * 1000)
+    })
 }
