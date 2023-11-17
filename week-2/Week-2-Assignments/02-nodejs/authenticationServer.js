@@ -30,8 +30,80 @@
  */
 
 const express = require("express")
+const bodyParser = require('body-parser');
 const PORT = 3000;
 const app = express();
+
+let users = [];
+
+// function generateRandom(length) {
+//     let uniqueID = '';
+//     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//     const charactersLength = characters.length;
+//     let counter = 0;
+//     while (counter < length) {
+//         uniqueID += characters.charAt(Math.floor(Math.random() * charactersLength));
+//         counter += 1;
+//     }
+//     return uniqueID;
+//     // Alternate approach
+//     // let r = (Math.random() + 1).toString(36).substring(7);
+//     // console.log("random", r);
+// }
+
+function signUp(req, res) {
+    let user = req.body;
+    let email = user.email;
+    if (users.some((user) => user.email === email)) {
+        res.status(400).send("User already exists.")
+    } else {
+        let id = generateRandom(5);
+        user.id = id;
+        users.push(user);
+        res.status(201).send("Sign up successful.")
+    }
+}
+
+function logIn(req, res) {
+    let user = req.body;
+    let email = user.email;
+    let password = user.password;
+    let actualUser = users.find((user) => (user.email === email && user.password === password));
+    if (actualUser && password === actualUser.password) {
+        res.status(200).res.json({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email
+        });
+    } else {
+        res.status(401).send("Credentials are invalid.");
+    }
+}
+
+function data(req, res) {
+    let email = req.headers.email;
+    let password = req.headers.password;
+    let usersData = [];
+    if (users.some((user) => (user.email === email && user.password === password))) {
+        users.forEach((element) => {
+            usersData.push({
+                firstName: element.firstName,
+                lastName: element.lastName,
+                email: element.email
+            })
+        })
+        res.status(200).json({ usersData });
+    } else {
+        res.status(401).send("Credentials are invalid.");
+    }
+}
+
+app.use(bodyParser.json());
+
+app.post("/signup", signUp);
+app.post("/login", logIn);
+app.get("/data", data);
+
 // write your logic here, DONT WRITE app.listen(3000) when you're running tests, the tests will automatically start the server
 
 module.exports = app;
