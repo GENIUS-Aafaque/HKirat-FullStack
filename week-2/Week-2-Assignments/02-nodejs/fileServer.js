@@ -16,33 +16,40 @@
 
     Testing the server - run `npm run test-fileServer` command in terminal
  */
+
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
 
-app.get('/files', (req, res) => {
-    fs.readdir(path.join(__dirname, './files/'), (err, files) => {
+async function getAllFiles(req, res) {
+
+    try {
+        let allFiles = await fs.promises.readdir('./files/');
+        res.status(200).json({ allFiles });
+    } catch (err) {
+        res.status(401).send(err);
+    }
+}
+
+function getFileContent(req, res) {
+    let fileName = req.params.filename;
+    const filePath = path.join('./files/', fileName);
+    fs.readFile(filePath, 'utf-8', (err, data) => {
         if (err) {
-            return res.status(500).json({ error: 'Failed to retrieve files' });
+            res.status(404).send("File not found");
+        } else {
+            res.status(200).send(data);
         }
-        res.json(files);
-    });
-});
+    })
+}
 
-app.get('/file/:filename', (req, res) => {
-    const filepath = path.join(__dirname, './files/', req.params.filename);
+app.listen(3000, () => { console.log("Live...") });
 
-    fs.readFile(filepath, 'utf8', (err, data) => {
-        if (err) {
-            return res.status(404).send('File not found');
-        }
-        res.send(data);
-    });
-});
-
-app.all('*', (req, res) => {
-    res.status(404).send('Route not found');
-});
+app.get("/files", getAllFiles);
+app.get("/file/:filename", getFileContent);
+app.all("*", (req, res) => {
+    res.status(404).send("Not defined");
+})
 
 module.exports = app;
