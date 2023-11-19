@@ -41,9 +41,66 @@
  */
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const app = express();
 
+let allTodos = [];
+
 app.use(bodyParser.json());
+
+app.get("/todos", (req, res) => {
+  res.json(allTodos);
+});
+
+app.get("/todos/:id", (req, res) => {
+  let reqTodoId = req.params.id;
+  allTodos.forEach(todo => {
+    if (todo.id === reqTodoId) {
+      res.json(todo);
+      return;
+    }
+  })
+  res.status(404).send("Not found.");
+})
+
+app.post("/todos", (req, res) => {
+  let todo = req.body;
+  todo.id = Math.random().toString(36).substring(2, 6);
+  allTodos.push(todo);
+  res.json(todo.id);
+})
+
+app.put("/todos/:id", (req, res) => {
+  let reqTodoId = req.params.id;
+  let reqTodo = req.body;
+  allTodos.forEach(todo => {
+    if (todo.id === reqTodoId) {
+      todo.title = reqTodo.title;
+      todo.description = reqTodo.description;
+      todo.completed = reqTodo.completed;
+      res.send("Todo updated");
+      return;
+    }
+  })
+  res.status(404).send("Not found.");
+})
+
+app.delete("/todos/:id", (req, res) => {
+  let reqTodoId = req.params.id;
+  allTodos.forEach(todo => {
+    if (todo.id === reqTodoId) {
+      let index = allTodos.indexOf(todo);
+      allTodos.splice(index, 1);
+      res.send("Todo deleted.");
+      return;
+    }
+  })
+  res.status(404).send("Not found.");
+})
+
+app.get('*', (req, res) => {
+  res.status(404).send("Invalid route.");
+})
+
+app.listen(3000, () => { console.log("Live...") });
 
 module.exports = app;
