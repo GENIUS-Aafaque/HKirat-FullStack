@@ -57,6 +57,12 @@ app.get("/todos/:id", (req, res) => {
     if (todo.id === reqTodoId) {
       res.json(todo);
       return;
+      // const todo = todos.find(t => t.id === parseInt(req.params.id));
+      // if (!todo) {
+      //   res.status(404).send();
+      // } else {
+      //   res.json(todo);
+      // }
     }
   })
   res.status(404).send("Not found.");
@@ -79,6 +85,14 @@ app.put("/todos/:id", (req, res) => {
       todo.completed = reqTodo.completed;
       res.send("Todo updated");
       return;
+      // // const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
+      // // if (todoIndex === -1) {
+      // //   res.status(404).send();
+      // // } else {
+      // //   todos[todoIndex].title = req.body.title;
+      // //   todos[todoIndex].description = req.body.description;
+      // //   res.json(todos[todoIndex]);
+      // }
     }
   })
   res.status(404).send("Not found.");
