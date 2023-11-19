@@ -111,6 +111,10 @@ app.delete("/todos/:id", (req, res) => {
   res.status(404).send("Not found.");
 })
 
+// for all other routes, return 404
+// app.use((req, res, next) => {
+//   res.status(404).send();
+// });
 app.get('*', (req, res) => {
   res.status(404).send("Invalid route.");
 })
