@@ -43,8 +43,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 
-let allTodos = [];
-
 app.use(bodyParser.json());
 
 app.get("/todos", (req, res) => {
