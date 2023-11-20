@@ -48,77 +48,53 @@ let allTodos = [];
 app.use(bodyParser.json());
 
 app.get("/todos", (req, res) => {
-  res.json(allTodos);
+    res.json(allTodos);
 });
 
 app.get("/todos/:id", (req, res) => {
-  let reqTodoId = req.params.id;
-  allTodos.forEach(todo => {
-    if (todo.id === reqTodoId) {
-      res.json(todo);
-      return;
-      // const todo = todos.find(t => t.id === parseInt(req.params.id));
-      // if (!todo) {
-      //   res.status(404).send();
-      // } else {
-      //   res.json(todo);
-      // }
+    let reqTodoId = req.params.id;
+    const todo = allTodos.find(t => t.id === parseInt(reqTodoId));
+    if (!todo) {
+        res.status(404).send();
+    } else {
+        res.json(todo);
     }
-  })
-  res.status(404).send("Not found.");
 })
 
 app.post("/todos", (req, res) => {
-  let todo = req.body;
-  todo.id = Math.random().toString(36).substring(2, 6);
-  allTodos.push(todo);
-  res.json(todo.id);
+    let todo = req.body;
+    todo.id = Math.random().toString(36).substring(2, 6);
+    allTodos.push(todo);
+    res.json(todo);
 })
 
 app.put("/todos/:id", (req, res) => {
-  let reqTodoId = req.params.id;
-  let reqTodo = req.body;
-  allTodos.forEach(todo => {
-    if (todo.id === reqTodoId) {
-      todo.title = reqTodo.title;
-      todo.description = reqTodo.description;
-      todo.completed = reqTodo.completed;
-      res.send("Todo updated");
-      return;
-      // // const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
-      // // if (todoIndex === -1) {
-      // //   res.status(404).send();
-      // // } else {
-      // //   todos[todoIndex].title = req.body.title;
-      // //   todos[todoIndex].description = req.body.description;
-      // //   res.json(todos[todoIndex]);
-      // }
+    let reqTodoId = req.params.id;
+    const index = allTodos.findIndex(t => t.id === parseInt(reqTodoId));
+    if (index === -1) {
+        res.status(404).send();
+    } else {
+        allTodos[index].title = req.body.title;
+        allTodos[index].description = req.body.description;
+        res.json(allTodos[index]);
     }
-  })
-  res.status(404).send("Not found.");
-})
+});
 
 app.delete("/todos/:id", (req, res) => {
-  let reqTodoId = req.params.id;
-  allTodos.forEach(todo => {
-    if (todo.id === reqTodoId) {
-      let index = allTodos.indexOf(todo);
-      allTodos.splice(index, 1);
-      res.send("Todo deleted.");
-      return;
+    let reqTodoId = req.params.id;
+    const todoIndex = todos.findIndex(t => t.id === parseInt(reqTodoId));
+    if (todoIndex === -1) {
+        res.status(404).send();
+    } else {
+        todos.splice(todoIndex, 1);
+        res.status(200).send();
     }
-  })
-  res.status(404).send("Not found.");
-})
+});
 
 // for all other routes, return 404
-// app.use((req, res, next) => {
-//   res.status(404).send();
-// });
-app.get('*', (req, res) => {
-  res.status(404).send("Invalid route.");
-})
+app.use((req, res, next) => {
+    res.status(404).send();
+});
+
 
 app.listen(3000, () => { console.log("Live...") });
-
-module.exports = app;
