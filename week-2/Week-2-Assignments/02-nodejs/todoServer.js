@@ -40,59 +40,99 @@
   Testing the server - run `npm run test-todoServer` command in terminal
  */
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/todos", (req, res) => {
-    res.json(allTodos);
+    fs.readFile("todos.json", "utf-8", (err, data) => {
+        if (err) throw err;
+        res.json(JSON.parse(data));
+    })
 });
 
 app.get("/todos/:id", (req, res) => {
-    let reqTodoId = req.params.id;
-    const todo = allTodos.find(t => t.id === parseInt(reqTodoId));
-    if (!todo) {
-        res.status(404).send();
-    } else {
-        res.json(todo);
-    }
-})
+    fs.readFile("todos.json", "utf8", (err, data) => {
+        if (err) throw err;
+        const todos = JSON.parse(data);
+        const todo = todos.find(t => t.id === parseInt(req.params.id));
+        if (!todo) {
+            res.status(404).send();
+        } else {
+            res.json(todo);
+        }
+    })
+});
 
 app.post("/todos", (req, res) => {
-    let todo = req.body;
-    todo.id = Math.random().toString(36).substring(2, 6);
-    allTodos.push(todo);
-    res.json(todo);
-})
+    const newTodo = {
+        id: Math.random().toString(36).substring(2, 6),
+        title: req.body.title,
+        description: req.body.description
+    };
+    console.log(newTodo)
+    fs.readFile("todos.json", "utf8", (err, data) => {
+        if (err) throw err;
+        const todos = JSON.parse(data);
+        todos.push(newTodo);
+        fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+            if (err) throw err;
+            res.status(201).json(newTodo);
+        });
+    });
+});
 
 app.put("/todos/:id", (req, res) => {
-    let reqTodoId = req.params.id;
-    const index = allTodos.findIndex(t => t.id === parseInt(reqTodoId));
-    if (index === -1) {
-        res.status(404).send();
-    } else {
-        allTodos[index].title = req.body.title;
-        allTodos[index].description = req.body.description;
-        res.json(allTodos[index]);
-    }
+    fs.readFile("todos.json", "utf8", (err, data) => {
+        if (err) throw err;
+        const todos = JSON.parse(data);
+        const todoIndex = findIndex(todos, parseInt(req.params.id));
+        if (todoIndex === -1) {
+            res.status(404).send();
+        } else {
+            const updatedTodo = {
+                id: todos[todoIndex].id,
+                title: req.body.title,
+                description: req.body.description
+            };
+            todos[todoIndex] = updatedTodo;
+            fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+                if (err) throw err;
+                res.status(200).json(updatedTodo);
+            });
+        }
+    });
 });
 
 app.delete("/todos/:id", (req, res) => {
-    let reqTodoId = req.params.id;
-    const todoIndex = todos.findIndex(t => t.id === parseInt(reqTodoId));
-    if (todoIndex === -1) {
-        res.status(404).send();
-    } else {
-        todos.splice(todoIndex, 1);
-        res.status(200).send();
-    }
+    fs.readFile("todos.json", "utf8", (err, data) => {
+        if (err) throw err;
+        const todos = JSON.parse(data);
+        const todoIndex = findIndex(todos, parseInt(req.params.id));
+        if (todoIndex === -1) {
+            res.status(404).send();
+        } else {
+            todos = removeAtIndex(todos, todoIndex);
+            fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+                if (err) throw err;
+                res.status(200).send();
+            });
+        }
+    });
 });
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+})
 
 // for all other routes, return 404
 app.use((req, res, next) => {
     res.status(404).send();
 });
-
 
 app.listen(3000, () => { console.log("Live...") });

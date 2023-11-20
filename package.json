@@ -17,5 +17,8 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5"
   }
 }
