@@ -115,11 +115,11 @@ app.delete("/todos/:id", (req, res) => {
     fs.readFile("todos.json", "utf8", (err, data) => {
         if (err) throw err;
         let todos = JSON.parse(data);
-        const todo = todos.find(t => t.id === todoIdToDelete);
-        if (!todo) {
+        const todoIndex = todos.findIndex(t => t.id === todoIdToDelete);
+        if (todoIndex === -1) {
             res.status(404).send();
         } else {
-            todos = todos.filter(todo => todo.id !== todoIdToDelete);
+            todos.splice(todoIndex, 1); // Remove the todo at the found index
             fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
                 if (err) throw err;
                 res.status(200).send();
