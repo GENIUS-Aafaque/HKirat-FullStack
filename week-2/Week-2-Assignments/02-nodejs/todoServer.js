@@ -60,7 +60,7 @@ app.get("/todos/:id", (req, res) => {
     fs.readFile("todos.json", "utf8", (err, data) => {
         if (err) throw err;
         const todos = JSON.parse(data);
-        const todo = todos.find(t => t.id === parseInt(req.params.id));
+        const todo = todos.find(t => t.id === req.params.id);
         if (!todo) {
             res.status(404).send();
         } else {
@@ -89,10 +89,11 @@ app.post("/todos", (req, res) => {
 
 app.put("/todos/:id", (req, res) => {
     fs.readFile("todos.json", "utf8", (err, data) => {
+        const todoIdToDelete = req.params.id;
         if (err) throw err;
         const todos = JSON.parse(data);
-        const todo = todos.find(t => t.id === todoIdToDelete);
-        if (!todo) {
+        const todoIndex = todos.findIndex(todo => todo.id === todoIdToDelete);
+        if (todoIndex === -1) {
             res.status(404).send();
         } else {
             const updatedTodo = {
@@ -110,10 +111,10 @@ app.put("/todos/:id", (req, res) => {
 });
 
 app.delete("/todos/:id", (req, res) => {
-    const todoIdToDelete = parseInt(req.params.id);
+    const todoIdToDelete = req.params.id;
     fs.readFile("todos.json", "utf8", (err, data) => {
         if (err) throw err;
-        const todos = JSON.parse(data);
+        let todos = JSON.parse(data);
         const todo = todos.find(t => t.id === todoIdToDelete);
         if (!todo) {
             res.status(404).send();
