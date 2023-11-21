@@ -7,21 +7,24 @@ function getTodos() {
                 const parentElement = document.getElementById("mainArea");
 
                 const childElement = document.createElement("div");
+                childElement.id = `todo_${data[i].id}`;
 
                 const titleElement = document.createElement("span");
-                titleElement.innerHTML = data[i].title;
+                titleElement.innerHTML = data[i].title + "  ";
 
                 const descriptionElement = document.createElement("span");
-                descriptionElement.innerHTML = data[i].description;
+                descriptionElement.innerHTML = data[i].description + "  ";
 
                 const deleteButton = document.createElement("button");
                 deleteButton.innerHTML = "Delete";
+                deleteButton.addEventListener("click", () => deleteTodo(data[i].id));
 
                 childElement.appendChild(titleElement);
                 childElement.appendChild(descriptionElement);
                 childElement.appendChild(deleteButton);
 
                 parentElement.appendChild(childElement);
+                parentElement.appendChild(document.createElement("br"));
             }
         })
     })
@@ -42,26 +45,50 @@ function postTodos() {
         }
     }).then((resp) => {
         resp.json().then(data => {
-
             const parentElement = document.getElementById("mainArea");
 
             const childElement = document.createElement("div");
+            childElement.id = `todo_${data.id}`;
 
             const titleElement = document.createElement("span");
-            titleElement.innerHTML = data[i].title;
+            titleElement.innerHTML = data.title + "  ";
 
             const descriptionElement = document.createElement("span");
-            descriptionElement.innerHTML = data[i].description;
+            descriptionElement.innerHTML = data.description + "  ";
 
             const deleteButton = document.createElement("button");
             deleteButton.innerHTML = "Delete";
+            deleteButton.setAttribute("onclick", `deleteTodo(${data.id})`);
+            console.log(data.id)
 
             childElement.appendChild(titleElement);
             childElement.appendChild(descriptionElement);
             childElement.appendChild(deleteButton);
 
             parentElement.appendChild(childElement);
+            parentElement.appendChild(document.createElement("br"));
 
         })
     })
+}
+
+function deleteTodo(todoId) {
+    fetch(`http://localhost:3000/todos/${todoId}`, {
+        method: "DELETE",
+    }).then((resp) => {
+        if (resp.ok) {
+            // The todo was successfully deleted from the server
+            // Now remove the corresponding HTML element from the UI
+
+            // Assuming each todo div has a unique ID, you can find and remove it
+            const todoElementToRemove = document.getElementById(`todo_${todoId}`);
+            if (todoElementToRemove) {
+                todoElementToRemove.remove();
+            } else {
+                console.error(`Todo with ID ${todoId} not found in the UI.`);
+            }
+        } else {
+            console.error(`Failed to delete todo with ID ${todoId}.`);
+        }
+    });
 }
