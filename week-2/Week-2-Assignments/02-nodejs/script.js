@@ -77,10 +77,6 @@ function deleteTodo(todoId) {
         method: "DELETE",
     }).then((resp) => {
         if (resp.ok) {
-            // The todo was successfully deleted from the server
-            // Now remove the corresponding HTML element from the UI
-
-            // Assuming each todo div has a unique ID, you can find and remove it
             const todoElementToRemove = document.getElementById(`todo_${todoId}`);
             if (todoElementToRemove) {
                 todoElementToRemove.remove();
