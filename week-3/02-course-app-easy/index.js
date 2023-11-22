@@ -14,11 +14,18 @@ app.post('/admin/signup', (req, res) => {
         username: req.body.username,
         password: req.body.password
     })
-    res.send("Admin created successfully");
+    res.json({ message: 'Admin created successfully' });
 });
 
 app.post('/admin/login', (req, res) => {
     // logic to log in admin
+    const reqAdmin = req.headers;
+    const adminExists = ADMINS.find(admin => (admin.username === reqAdmin.username && admin.password === reqAdmin.password))
+    if (adminExists) {
+        res.json({ message: 'Logged in successfully' });
+    } else {
+        res.status(404).send("Admin not found");
+    }
 });
 
 app.post('/admin/courses', (req, res) => {
