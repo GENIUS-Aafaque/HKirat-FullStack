@@ -50,6 +50,24 @@ app.post('/admin/courses', (req, res) => {
 
 app.put('/admin/courses/:courseId', (req, res) => {
     // logic to edit a course
+    const reqAdmin = req.headers;
+    const updatedCourse = req.body;
+    const courseId = req.params.courseId;
+    const adminExists = ADMINS.find(admin => (admin.username === reqAdmin.username && admin.password === reqAdmin.password))
+    if (adminExists) {
+        if (COURSES.find(course => course.id === courseId)) {
+            COURSES.push({
+                title: updatedCourse.title,
+                description: updatedCourse.description,
+                price: updatedCourse.price,
+                imageLink: updatedCourse.imageLink,
+                published: updatedCourse.published
+            })
+            res.json({ message: 'Course updated successfully' });
+        }
+    } else {
+        res.status(404).send("Admin not found");
+    }
 });
 
 app.get('/admin/courses', (req, res) => {
