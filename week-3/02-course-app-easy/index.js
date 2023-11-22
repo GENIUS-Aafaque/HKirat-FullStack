@@ -30,6 +30,22 @@ app.post('/admin/login', (req, res) => {
 
 app.post('/admin/courses', (req, res) => {
     // logic to create a course
+    const reqAdmin = req.headers;
+    const newCourse = req.body;
+    const adminExists = ADMINS.find(admin => (admin.username === reqAdmin.username && admin.password === reqAdmin.password))
+    if (adminExists) {
+        const courseId = Math.floor(Math.random() * 100);
+        COURSES.push({
+            title: newCourse.title,
+            description: newCourse.description,
+            price: newCourse.price,
+            imageLink: newCourse.imageLink,
+            published: newCourse.published
+        })
+        res.json({ message: 'Course created successfully', courseId: courseId });
+    } else {
+        res.status(404).send("Admin not found");
+    }
 });
 
 app.put('/admin/courses/:courseId', (req, res) => {
