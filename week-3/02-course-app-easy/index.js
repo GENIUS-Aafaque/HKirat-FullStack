@@ -38,6 +38,7 @@ app.post('/admin/courses', authenticateAdmin, (req, res) => {
     const newCourse = req.body;
     const courseId = Math.floor(Math.random() * 100);
     COURSES.push({
+        id: courseId,
         title: newCourse.title,
         description: newCourse.description,
         price: newCourse.price,
@@ -54,6 +55,7 @@ app.put('/admin/courses/:courseId', authenticateAdmin, (req, res) => {
     const index = COURSES.findIndex(course => course.id === courseId);
     if (index !== -1) {
         COURSES[index] = {
+            id: courseId,
             title: updatedCourse.title,
             description: updatedCourse.description,
             price: updatedCourse.price,
