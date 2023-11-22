@@ -85,6 +85,11 @@ const authenticateUser = (req, res, next) => {
 // User routes
 app.post('/users/signup', (req, res) => {
     // logic to sign up user
+    USERS.push({
+        username: req.body.username,
+        password: req.body.password
+    })
+    res.json({ message: 'User created successfully' });
 });
 
 app.post('/users/login', (req, res) => {
