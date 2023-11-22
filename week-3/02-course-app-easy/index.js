@@ -76,6 +76,7 @@ const authenticateUser = (req, res, next) => {
     const { username, password } = req.headers;
     const userExists = USERS.find(user => (user.username === username && user.password === password))
     if (userExists) {
+        req.user = userExists;
         next();
     } else {
         res.status(404).send("User not found");
@@ -87,7 +88,8 @@ app.post('/users/signup', (req, res) => {
     // logic to sign up user
     USERS.push({
         username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        purchasedCourses: []
     })
     res.json({ message: 'User created successfully' });
 });
@@ -104,6 +106,13 @@ app.get('/users/courses', (req, res) => {
 
 app.post('/users/courses/:courseId', (req, res) => {
     // logic to purchase a course
+    const courseId = req.params.courseId;
+    const newPurchase = COURSES.find(course => course.id === courseId);
+    const userIndex = USERS.indexOf(req.user)
+    if (newPurchase) {
+        USERS[userIndex].purchasedCourses.push(newPurchase);
+        res.json({ message: 'Course purchased successfully' });
+    }
 });
 
 app.get('/users/purchasedCourses', (req, res) => {
