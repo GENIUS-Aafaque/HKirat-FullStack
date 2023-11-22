@@ -51,14 +51,15 @@ app.put('/admin/courses/:courseId', authenticateAdmin, (req, res) => {
     // logic to edit a course
     const updatedCourse = req.body;
     const courseId = req.params.courseId;
-    if (COURSES.find(course => course.id === courseId)) {
-        COURSES.push({
+    const index = COURSES.findIndex(course => course.id === courseId);
+    if (index !== -1) {
+        COURSES[index] = {
             title: updatedCourse.title,
             description: updatedCourse.description,
             price: updatedCourse.price,
             imageLink: updatedCourse.imageLink,
             published: updatedCourse.published
-        })
+        };
         res.json({ message: 'Course updated successfully' });
     }
 });
