@@ -7,6 +7,17 @@ let ADMINS = [];
 let USERS = [];
 let COURSES = [];
 
+// Middleware for Admin Authentication
+const authenticateAdmin = (req, res, next) => {
+    const reqAdmin = req.headers;
+    const adminExists = ADMINS.find(admin => (admin.username === reqAdmin.username && admin.password === reqAdmin.password))
+    if (adminExists) {
+        next();
+    } else {
+        res.status(404).send("Admin not found");
+    }
+};
+
 // Admin routes
 app.post('/admin/signup', (req, res) => {
     // logic to sign up admin
