@@ -51,7 +51,7 @@ app.post('/admin/courses', authenticateAdmin, (req, res) => {
 app.put('/admin/courses/:courseId', authenticateAdmin, (req, res) => {
     // logic to edit a course
     const updatedCourse = req.body;
-    const courseId = req.params.courseId;
+    const courseId = parseInt(req.params.courseId);
     const index = COURSES.findIndex(course => course.id === courseId);
     if (index !== -1) {
         COURSES[index] = {
@@ -74,9 +74,9 @@ app.get('/admin/courses', authenticateAdmin, (req, res) => {
 // Middleware for User Authentication
 const authenticateUser = (req, res, next) => {
     const { username, password } = req.headers;
-    const userExists = USERS.find(user => (user.username === username && user.password === password))
-    if (userExists) {
-        req.user = userExists;
+    const userIndex = USERS.findIndex(user => (user.username === username && user.password === password));
+    if (userIndex !== -1) {
+        req.userIndex = userIndex;
         next();
     } else {
         res.status(404).send("User not found");
@@ -99,28 +99,28 @@ app.post('/users/login', authenticateUser, (req, res) => {
     res.json({ message: 'Logged in successfully' });
 });
 
-app.get('/users/courses', (req, res) => {
+app.get('/users/courses', authenticateUser, (req, res) => {
     // logic to list all courses
     const filteredCourses = COURSES.filter(course => course.published === true)
     res.json({ courses: filteredCourses });
 });
 
-app.post('/users/courses/:courseId', (req, res) => {
+app.post('/users/courses/:courseId', authenticateUser, (req, res) => {
     // logic to purchase a course
-    const courseId = req.params.courseId;
+    const courseId = parseInt(req.params.courseId, 10);;
     const newPurchase = COURSES.find(course => course.id === courseId);
-    const userIndex = USERS.indexOf(req.user)
+    const userIndex = parseInt(req.userIndex, 10);
     if (newPurchase) {
-        USERS[userIndex].purchasedCourses.push(newPurchase);
+        USERS[userIndex].purchasedCourses.push(newPurchase.id);
         res.json({ message: 'Course purchased successfully' });
     } else {
         res.status(404).json({ message: 'Course not found or not available' });
     }
 });
 
-app.get('/users/purchasedCourses', (req, res) => {
+app.get('/users/purchasedCourses', authenticateUser, (req, res) => {
     // logic to view purchased courses
-    res.json({ purchasedCourses: req.user.purchasedCourses })
+    res.json({ purchasedCourses: USERS[parseInt(req.userIndex, 10)].purchasedCourses })
 });
 
 app.listen(3000, () => {
