@@ -72,6 +72,13 @@ app.put('/admin/courses/:courseId', (req, res) => {
 
 app.get('/admin/courses', (req, res) => {
     // logic to get all courses
+    const reqAdmin = req.headers;
+    const adminExists = ADMINS.find(admin => (admin.username === reqAdmin.username && admin.password === reqAdmin.password))
+    if (adminExists) {
+        res.json({ courses: COURSES });
+    } else {
+        res.status(404).send("Admin not found");
+    }
 });
 
 // User routes
