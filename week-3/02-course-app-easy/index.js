@@ -18,7 +18,7 @@ const authenticateAdmin = (req, res, next) => {
     }
 };
 
-// Admin routes
+// Admin Routes
 app.post('/admin/signup', (req, res) => {
     // logic to sign up admin
     ADMINS.push({
@@ -28,68 +28,44 @@ app.post('/admin/signup', (req, res) => {
     res.json({ message: 'Admin created successfully' });
 });
 
-app.post('/admin/login', (req, res) => {
+app.post('/admin/login', authenticateAdmin, (req, res) => {
     // logic to log in admin
-    const reqAdmin = req.headers;
-    const adminExists = ADMINS.find(admin => (admin.username === reqAdmin.username && admin.password === reqAdmin.password))
-    if (adminExists) {
-        res.json({ message: 'Logged in successfully' });
-    } else {
-        res.status(404).send("Admin not found");
-    }
+    res.json({ message: 'Logged in successfully' });
 });
 
-app.post('/admin/courses', (req, res) => {
+app.post('/admin/courses', authenticateAdmin, (req, res) => {
     // logic to create a course
-    const reqAdmin = req.headers;
     const newCourse = req.body;
-    const adminExists = ADMINS.find(admin => (admin.username === reqAdmin.username && admin.password === reqAdmin.password))
-    if (adminExists) {
-        const courseId = Math.floor(Math.random() * 100);
-        COURSES.push({
-            title: newCourse.title,
-            description: newCourse.description,
-            price: newCourse.price,
-            imageLink: newCourse.imageLink,
-            published: newCourse.published
-        })
-        res.json({ message: 'Course created successfully', courseId: courseId });
-    } else {
-        res.status(404).send("Admin not found");
-    }
+    const courseId = Math.floor(Math.random() * 100);
+    COURSES.push({
+        title: newCourse.title,
+        description: newCourse.description,
+        price: newCourse.price,
+        imageLink: newCourse.imageLink,
+        published: newCourse.published
+    })
+    res.json({ message: 'Course created successfully', courseId: courseId });
 });
 
-app.put('/admin/courses/:courseId', (req, res) => {
+app.put('/admin/courses/:courseId', authenticateAdmin, (req, res) => {
     // logic to edit a course
-    const reqAdmin = req.headers;
     const updatedCourse = req.body;
     const courseId = req.params.courseId;
-    const adminExists = ADMINS.find(admin => (admin.username === reqAdmin.username && admin.password === reqAdmin.password))
-    if (adminExists) {
-        if (COURSES.find(course => course.id === courseId)) {
-            COURSES.push({
-                title: updatedCourse.title,
-                description: updatedCourse.description,
-                price: updatedCourse.price,
-                imageLink: updatedCourse.imageLink,
-                published: updatedCourse.published
-            })
-            res.json({ message: 'Course updated successfully' });
-        }
-    } else {
-        res.status(404).send("Admin not found");
+    if (COURSES.find(course => course.id === courseId)) {
+        COURSES.push({
+            title: updatedCourse.title,
+            description: updatedCourse.description,
+            price: updatedCourse.price,
+            imageLink: updatedCourse.imageLink,
+            published: updatedCourse.published
+        })
+        res.json({ message: 'Course updated successfully' });
     }
 });
 
-app.get('/admin/courses', (req, res) => {
+app.get('/admin/courses', authenticateAdmin, (req, res) => {
     // logic to get all courses
-    const reqAdmin = req.headers;
-    const adminExists = ADMINS.find(admin => (admin.username === reqAdmin.username && admin.password === reqAdmin.password))
-    if (adminExists) {
-        res.json({ courses: COURSES });
-    } else {
-        res.status(404).send("Admin not found");
-    }
+    res.json({ courses: COURSES });
 });
 
 // User routes
