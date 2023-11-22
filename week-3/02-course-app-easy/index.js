@@ -120,6 +120,7 @@ app.post('/users/courses/:courseId', (req, res) => {
 
 app.get('/users/purchasedCourses', (req, res) => {
     // logic to view purchased courses
+    res.json({ purchasedCourses: req.user.purchasedCourses })
 });
 
 app.listen(3000, () => {
