@@ -9,8 +9,8 @@ let COURSES = [];
 
 // Middleware for Admin Authentication
 const authenticateAdmin = (req, res, next) => {
-    const reqAdmin = req.headers;
-    const adminExists = ADMINS.find(admin => (admin.username === reqAdmin.username && admin.password === reqAdmin.password))
+    const { username, password } = req.headers;
+    const adminExists = ADMINS.find(admin => (admin.username === username && admin.password === password))
     if (adminExists) {
         next();
     } else {
@@ -73,8 +73,8 @@ app.get('/admin/courses', authenticateAdmin, (req, res) => {
 
 // Middleware for User Authentication
 const authenticateUser = (req, res, next) => {
-    const reqUser = req.headers;
-    const userExists = USERS.find(user => (user.username === reqUser.username && user.password === reqUser.password))
+    const { username, password } = req.headers;
+    const userExists = USERS.find(user => (user.username === username && user.password === password))
     if (userExists) {
         next();
     } else {
