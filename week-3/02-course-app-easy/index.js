@@ -101,7 +101,8 @@ app.post('/users/login', authenticateUser, (req, res) => {
 
 app.get('/users/courses', (req, res) => {
     // logic to list all courses
-    res.json({ courses: COURSES });
+    const filteredCourses = COURSES.filter(course => course.published === true)
+    res.json({ courses: filteredCourses });
 });
 
 app.post('/users/courses/:courseId', (req, res) => {
@@ -112,6 +113,8 @@ app.post('/users/courses/:courseId', (req, res) => {
     if (newPurchase) {
         USERS[userIndex].purchasedCourses.push(newPurchase);
         res.json({ message: 'Course purchased successfully' });
+    } else {
+        res.status(404).json({ message: 'Course not found or not available' });
     }
 });
 
