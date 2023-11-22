@@ -71,6 +71,17 @@ app.get('/admin/courses', authenticateAdmin, (req, res) => {
     res.json({ courses: COURSES });
 });
 
+// Middleware for User Authentication
+const authenticateUser = (req, res, next) => {
+    const reqUser = req.headers;
+    const userExists = USERS.find(user => (user.username === reqUser.username && user.password === reqUser.password))
+    if (userExists) {
+        next();
+    } else {
+        res.status(404).send("User not found");
+    }
+};
+
 // User routes
 app.post('/users/signup', (req, res) => {
     // logic to sign up user
