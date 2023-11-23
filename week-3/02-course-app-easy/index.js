@@ -102,6 +102,7 @@ app.post('/users/courses/:courseId', authenticateUser, (req, res) => {
     // logic to purchase a course
     const courseId = parseInt(req.params.courseId, 10);;
     const newPurchase = COURSES.find(course => course.id === courseId);
+    // could also use req.user as it uses (pass by reference)
     const userIndex = parseInt(req.userIndex, 10);
     if (newPurchase) {
         USERS[userIndex].purchasedCourses.push(newPurchase.id);
