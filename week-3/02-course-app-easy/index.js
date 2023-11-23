@@ -14,7 +14,7 @@ const authenticateAdmin = (req, res, next) => {
     if (adminExists) {
         next();
     } else {
-        res.status(404).send("Admin not found");
+        res.status(401).send("Admin authentication failed");
     }
 };
 
@@ -63,6 +63,8 @@ app.put('/admin/courses/:courseId', authenticateAdmin, (req, res) => {
             published: updatedCourse.published
         };
         res.json({ message: 'Course updated successfully' });
+    } else {
+        res.status(404).json({ message: 'Course not found' });
     }
 });
 
@@ -79,7 +81,7 @@ const authenticateUser = (req, res, next) => {
         req.userIndex = userIndex;
         next();
     } else {
-        res.status(404).send("User not found");
+        res.status(401).send("User authentication failed");
     }
 };
 
