@@ -39,16 +39,9 @@ app.post('/admin/login', authenticateAdmin, (req, res) => {
 app.post('/admin/courses', authenticateAdmin, (req, res) => {
     // logic to create a course
     const newCourse = req.body;
-    const courseId = Math.floor(Math.random() * 100);
-    COURSES.push({
-        id: courseId,
-        title: newCourse.title,
-        description: newCourse.description,
-        price: newCourse.price,
-        imageLink: newCourse.imageLink,
-        published: newCourse.published
-    })
-    res.json({ message: 'Course created successfully', courseId: courseId });
+    newCourse.id = Math.floor(Math.random() * 100);
+    COURSES.push(newCourse)
+    res.json({ message: 'Course created successfully', courseId: newCourse.id });
 });
 
 app.put('/admin/courses/:courseId', authenticateAdmin, (req, res) => {
