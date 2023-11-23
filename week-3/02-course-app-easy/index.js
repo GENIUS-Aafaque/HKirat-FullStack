@@ -21,11 +21,14 @@ const authenticateAdmin = (req, res, next) => {
 // Admin Routes
 app.post('/admin/signup', (req, res) => {
     // logic to sign up admin
-    ADMINS.push({
-        username: req.body.username,
-        password: req.body.password
-    })
-    res.json({ message: 'Admin created successfully' });
+    const reqAdmin = req.body;
+    const existingAdmin = ADMINS.find(admin => admin.username === reqAdmin.username);
+    if (existingAdmin) {
+        res.status(403).json({ message: 'Admin already exists' });
+    } else {
+        ADMINS.push(reqAdmin);
+        res.json({ message: 'Admin created successfully' });
+    }
 });
 
 app.post('/admin/login', authenticateAdmin, (req, res) => {
@@ -88,12 +91,18 @@ const authenticateUser = (req, res, next) => {
 // User routes
 app.post('/users/signup', (req, res) => {
     // logic to sign up user
-    USERS.push({
-        username: req.body.username,
-        password: req.body.password,
-        purchasedCourses: []
-    })
-    res.json({ message: 'User created successfully' });
+    const reqUser = req.body;
+    const existingUser = ADMINS.find(user => user.username === reqUser.username);
+    if (existingUser) {
+        res.status(403).json({ message: 'Admin already exists' });
+    } else {
+        ADMINS.push({
+            username: reqUser.username,
+            password: reqUser.password,
+            purchasedCourses: []
+        });
+        res.json({ message: 'Admin created successfully' });
+    }
 });
 
 app.post('/users/login', authenticateUser, (req, res) => {
