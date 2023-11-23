@@ -50,14 +50,7 @@ app.put('/admin/courses/:courseId', authenticateAdmin, (req, res) => {
     const courseId = parseInt(req.params.courseId);
     const index = COURSES.findIndex(course => course.id === courseId);
     if (index !== -1) {
-        COURSES[index] = {
-            id: courseId,
-            title: updatedCourse.title,
-            description: updatedCourse.description,
-            price: updatedCourse.price,
-            imageLink: updatedCourse.imageLink,
-            published: updatedCourse.published
-        };
+        Object.assign(COURSES[index], updatedCourse);
         res.json({ message: 'Course updated successfully' });
     } else {
         res.status(404).json({ message: 'Course not found' });
