@@ -82,11 +82,7 @@ app.post('/users/signup', (req, res) => {
     if (existingUser) {
         res.status(403).json({ message: 'Admin already exists' });
     } else {
-        ADMINS.push({
-            username: reqUser.username,
-            password: reqUser.password,
-            purchasedCourses: []
-        });
+        ADMINS.push({ ...reqUser, purchasedCourses: [] });
         res.json({ message: 'Admin created successfully' });
     }
 });
