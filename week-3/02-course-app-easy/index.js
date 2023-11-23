@@ -117,7 +117,9 @@ app.post('/users/courses/:courseId', authenticateUser, (req, res) => {
 
 app.get('/users/purchasedCourses', authenticateUser, (req, res) => {
     // logic to view purchased courses
-    res.json({ purchasedCourses: USERS[parseInt(req.userIndex, 10)].purchasedCourses })
+    const userIndex = parseInt(req.userIndex, 10);
+    const purchasedCourses = COURSES.filter(course => USERS[userIndex].purchasedCourses.includes(course.id));
+    res.json({ purchasedCourses })
 });
 
 app.listen(3000, () => {
