@@ -1,11 +1,14 @@
 const express = require('express');
 const app = express();
+const jwt = require("jsonwebtoken");
 
 app.use(express.json());
 
 let ADMINS = [];
 let USERS = [];
 let COURSES = [];
+
+const secretKey = "geni0sS3cr31";
 
 // Admin routes
 app.post('/admin/signup', (req, res) => {
