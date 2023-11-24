@@ -1,19 +1,11 @@
 const express = require('express');
 const app = express();
-const jwt = require("jsonwebtoken");
 
 app.use(express.json());
 
 let ADMINS = [];
 let USERS = [];
 let COURSES = [];
-
-const secretKey = "geni0sS3cr31";
-
-const generateJwt = (user) => {
-    const payload = { username: user.username, };
-    return jwt.sign(payload, secretKey, { expiresIn: '1h' });
-};
 
 // Middleware for Admin Authentication
 const authenticateAdmin = (req, res, next) => {
@@ -86,12 +78,12 @@ const authenticateUser = (req, res, next) => {
 app.post('/users/signup', (req, res) => {
     // logic to sign up user
     const reqUser = req.body;
-    const existingUser = ADMINS.find(user => user.username === reqUser.username);
+    const existingUser = USERS.find(user => user.username === reqUser.username);
     if (existingUser) {
-        res.status(403).json({ message: 'Admin already exists' });
+        res.status(403).json({ message: 'User already exists' });
     } else {
-        ADMINS.push({ ...reqUser, purchasedCourses: [] });
-        res.json({ message: 'Admin created successfully' });
+        USERS.push({ ...reqUser, purchasedCourses: [] });
+        res.json({ message: 'User created successfully' });
     }
 });
 
