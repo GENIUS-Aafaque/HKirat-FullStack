@@ -10,6 +10,10 @@ let COURSES = [];
 
 const secretKey = "geni0sS3cr31";
 
+const generateJwt = (user) => {
+    const payload = { username: user.username, };
+    return jwt.sign(payload, secretKey, { expiresIn: '1h' });
+};
 
 // Middleware for Admin Authentication
 const authenticateAdmin = (req, res, next) => {
