@@ -1,11 +1,15 @@
 const express = require('express');
 const app = express();
+const jwt = require("jsonwebtoken");
 
 app.use(express.json());
 
 let ADMINS = [];
 let USERS = [];
 let COURSES = [];
+
+const secretKey = "geni0sS3cr31";
+
 
 // Middleware for Admin Authentication
 const authenticateAdmin = (req, res, next) => {
