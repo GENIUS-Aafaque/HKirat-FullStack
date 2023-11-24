@@ -94,7 +94,7 @@ app.post('/users/login', authenticateUser, (req, res) => {
 
 app.get('/users/courses', authenticateUser, (req, res) => {
     // logic to list all courses
-    const filteredCourses = COURSES.filter(course => course.published === true)
+    const filteredCourses = COURSES.filter(course => course.published)
     res.json({ courses: filteredCourses });
 });
 
