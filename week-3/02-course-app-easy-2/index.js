@@ -69,8 +69,17 @@ app.post('/admin/courses', authenticateJwt, (req, res) => {
     res.json({ message: 'Course created successfully', courseId: course.id });
 });
 
-app.put('/admin/courses/:courseId', (req, res) => {
+app.put('/admin/courses/:courseId', authenticateJwt, (req, res) => {
     // logic to edit a course
+    const courseId = parseInt(req.params.courseId);
+    const courseIndex = COURSES.findIndex(c => c.id === courseId);
+    if (courseIndex > -1) {
+        const updatedCourse = { ...COURSES[courseIndex], ...req.body };
+        COURSES[courseIndex] = updatedCourse;
+        res.json({ message: 'Course updated successfully' });
+    } else {
+        res.status(404).json({ message: 'Course not found' });
+    }
 });
 
 app.get('/admin/courses', (req, res) => {
