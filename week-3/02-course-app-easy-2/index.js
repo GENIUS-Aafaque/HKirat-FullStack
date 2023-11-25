@@ -19,7 +19,6 @@ const generateJwt = (user) => {
 // Authenticate token
 const authenticateJwt = (req, res, next) => {
     const authHeader = req.headers.authorisation;
-
     if (authHeader) {
         const token = authHeader.split(' ')[1];
         jwt.verify(token, secretKey, (err, user) => {
@@ -120,6 +119,22 @@ app.get('/users/courses', authenticateJwt, (req, res) => {
 
 app.post('/users/courses/:courseId', (req, res) => {
     // logic to purchase a course
+    const courseId = parseInt(req.params.courseId);
+    const course = COURSES.find(c => c.id === courseId);
+    if (course) {
+        const user = USERS.find(u => u.username === req.user.usename)
+        if (user) {
+            if (!user.purchasedCourses) {
+                user.purchasedCourses = [];
+            }
+            user.purchasedCourses.push(course);
+            res.json({ message: 'Course purchased successfully' });
+        } else {
+            res.status(403).json({ message: 'User not found' });
+        }
+    } else {
+        res.status(404).json({ message: 'Course not found' });
+    }
 });
 
 app.get('/users/purchasedCourses', (req, res) => {
