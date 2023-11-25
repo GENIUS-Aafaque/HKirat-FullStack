@@ -37,6 +37,15 @@ const authenticateJwt = (req, res, next) => {
 // Admin routes
 app.post('/admin/signup', (req, res) => {
     // logic to sign up admin
+    const admin = req.body;
+    const existingAdmin = ADMINS.find(a => a.username === admin.username);
+    if (existingAdmin) {
+        res.status(403).json({ message: 'Admin already exists' });
+    } else {
+        ADMINS.push(admin);
+        const token = generateJwt(admin);
+        res.json({ message: 'Admin created successfully', token });
+    }
 });
 
 app.post('/admin/login', (req, res) => {
