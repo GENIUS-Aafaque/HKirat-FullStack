@@ -90,6 +90,15 @@ app.get('/admin/courses', authenticateJwt, (req, res) => {
 // User routes
 app.post('/users/signup', (req, res) => {
     // logic to sign up user
+    const user = req.body;
+    const existingUser = USERS.find(u => u.username === user.username);
+    if (existingUser) {
+        res.status(403).json({ message: 'User already exists' });
+    } else {
+        USERS.push(user);
+        const token = generateJwt(user);
+        res.json({ message: 'User created successfully', token });
+    }
 });
 
 app.post('/users/login', (req, res) => {
