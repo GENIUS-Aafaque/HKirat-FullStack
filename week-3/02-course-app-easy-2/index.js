@@ -139,6 +139,12 @@ app.post('/users/courses/:courseId', (req, res) => {
 
 app.get('/users/purchasedCourses', (req, res) => {
     // logic to view purchased courses
+    const user = USERS.find(u => u.username === req.user.username);
+    if (user && user.purchasedCourses) {
+        res.json({ purchasedCourses: user.purchasedCourses });
+    } else {
+        res.status(404).json({ message: 'No courses purchased' });
+    }
 });
 
 app.listen(3000, () => {
