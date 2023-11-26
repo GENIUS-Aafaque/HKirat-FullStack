@@ -79,6 +79,14 @@ app.post('/admin/courses', (req, res) => {
 
 app.put('/admin/courses/:courseId', (req, res) => {
     // logic to edit a course
+    const course = COURSES.find(c => c.id === parseInt(req.params.courseId));
+    if (course) {
+        Object.assign(course, req.body);
+        fs.writeFileSync('courses.json', JSON.stringify(COURSES));
+        res.json({ message: 'Course updated successfully' });
+    } else {
+        res.status(404).json({ message: 'Course not found' });
+    }
 });
 
 app.get('/admin/courses', (req, res) => {
