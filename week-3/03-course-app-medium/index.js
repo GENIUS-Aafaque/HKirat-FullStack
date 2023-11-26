@@ -19,7 +19,6 @@ try {
     USERS = [];
     COURSES = [];
 }
-console.log(ADMINS);
 
 const SECRET = 'S3cr31-keY';
 
@@ -44,7 +43,6 @@ app.post('/admin/signup', (req, res) => {
     // logic to sign up admin
     const { username, password } = req.body;
     const admin = ADMINS.find(a => a.username === username);
-    console.log("admin signup");
     if (admin) {
         res.status(403).json({ message: 'Admin already exists' });
     } else {
