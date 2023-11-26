@@ -124,6 +124,7 @@ app.post('/users/login', (req, res) => {
 
 app.get('/users/courses', (req, res) => {
     // logic to list all courses
+    res.json({ courses: COURSES });
 });
 
 app.post('/users/courses/:courseId', (req, res) => {
