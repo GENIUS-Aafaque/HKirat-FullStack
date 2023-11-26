@@ -97,6 +97,17 @@ app.get('/admin/courses', (req, res) => {
 // User routes
 app.post('/users/signup', (req, res) => {
     // logic to sign up user
+    const { username, password } = req.body;
+    const user = USERS.find(u => u.username === username);
+    if (user) {
+        res.status(403).json({ message: 'User already exists' });
+    } else {
+        const newUser = { username, password };
+        USERS.push(newUser);
+        fs.writeFileSync('users.json', JSON.stringify(USERS));
+        const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
+        res.json({ message: 'User created successfully', token });
+    }
 });
 
 app.post('/users/login', (req, res) => {
