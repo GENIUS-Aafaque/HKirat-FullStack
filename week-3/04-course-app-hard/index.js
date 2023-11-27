@@ -78,8 +78,11 @@ app.post('/admin/login', async (req, res) => {
     }
 });
 
-app.post('/admin/courses', (req, res) => {
+app.post('/admin/courses', authenticateJwt, (req, res) => {
     // logic to create a course
+    const newCourse = new Course(req.body);
+    newCourse.save();
+    res.json({ message: 'Course created successfully', courseId: course.id });
 });
 
 app.put('/admin/courses/:courseId', (req, res) => {
