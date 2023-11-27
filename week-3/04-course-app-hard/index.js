@@ -68,9 +68,9 @@ app.post('/admin/signup', async (req, res) => {
 
 app.post('/admin/login', async (req, res) => {
     // logic to log in admin
-    const { username, password } = req.body;
-    const user = await Admin.findOne({ username, password });
-    if (user) {
+    const { username, password } = req.headers;
+    const admin = await Admin.findOne({ username, password });
+    if (admin) {
         const token = jwt.sign({ username, role: 'admin' }, SECRET, { expiresIn: '1h' });
         res.json({ message: 'Logged in successfully', token });
     } else {
@@ -116,8 +116,16 @@ app.post('/users/signup', async (req, res) => {
     }
 });
 
-app.post('/users/login', (req, res) => {
+app.post('/users/login', async (req, res) => {
     // logic to log in user
+    const { username, password } = req.headers;
+    const user = await user.findOne({ username, password });
+    if (user) {
+        const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
+        res.json({ message: 'Logged in successfully', token });
+    } else {
+        res.status(403).json("Invalid credentials");
+    }
 });
 
 app.get('/users/courses', (req, res) => {
