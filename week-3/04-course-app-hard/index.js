@@ -82,16 +82,21 @@ app.post('/admin/courses', authenticateJwt, async (req, res) => {
     // logic to create a course
     const newCourse = new Course(req.body);
     await newCourse.save();
-    res.json({ message: 'Course created successfully', courseId: course.id });
+    res.json({ message: 'Course created successfully', courseId: newCourse.id });
 });
 
 app.put('/admin/courses/:courseId', authenticateJwt, async (req, res) => {
     // logic to edit a course
-    const course = await Course.findByIdAndUpdate(req.params.courseId);
-    if (course) {
-        res.json({ message: 'Course updated successfully' });
-    } else {
-        res.status(404).json({ message: 'Course not found' });
+    try {
+        const course = await Course.findByIdAndUpdate(req.params.courseId, req.body, { new: true });
+        if (course) {
+            res.json({ message: 'Course updated successfully' });
+        } else {
+            res.status(404).json({ message: 'Course not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
@@ -119,7 +124,7 @@ app.post('/users/signup', async (req, res) => {
 app.post('/users/login', async (req, res) => {
     // logic to log in user
     const { username, password } = req.headers;
-    const user = await user.findOne({ username, password });
+    const user = await User.findOne({ username, password });
     if (user) {
         const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
         res.json({ message: 'Logged in successfully', token });
@@ -136,18 +141,23 @@ app.get('/users/courses', authenticateJwt, async (req, res) => {
 
 app.post('/users/courses/:courseId', authenticateJwt, async (req, res) => {
     // logic to purchase a course
-    const course = await Course.findById(req.params.courseId);
-    if (course) {
-        const user = await User.findOne({ username: req.user.username });
-        if (user) {
-            user.purchasedCourses.push(course);
-            await user.save();
-            res.json({ message: 'Course purchased successfully' });
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (course) {
+            const user = await User.findOne({ username: req.user.username });
+            if (user) {
+                user.purchasedCourses.push(course);
+                await user.save();
+                res.json({ message: 'Course purchased successfully' });
+            } else {
+                res.status(403).json({ message: 'User not found' });
+            }
         } else {
-            res.status(403).json({ message: 'User not found' });
+            res.status(404).json({ message: 'Course not found' });
         }
-    } else {
-        res.status(404).json({ message: 'Course not found' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
