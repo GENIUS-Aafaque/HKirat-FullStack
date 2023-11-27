@@ -52,8 +52,18 @@ const Course = mongoose.model('Course', courseSchema);
 mongoose.connect('mongodb+srv://GENIUS:genius313@cluster0.nnx2fnq.mongodb.net/course-app', { useNewUrlParser: true, useUnifiedTopology: true, dbName: "course-app" });
 
 // Admin routes
-app.post('/admin/signup', (req, res) => {
+app.post('/admin/signup', async (req, res) => {
     // logic to sign up admin
+    const { username, password } = req.body;
+    const user = await Admin.findOne({ username });
+    if (user) {
+        res.status(403).json({ message: "Admin already exists" });
+    } else {
+        const newAdmin = new Admin({ username, password });
+        newAdmin.save();
+        const token = jwt.sign({ username, role: 'admin' }, SECRET, { expiresIn: '1h' });
+        res.json({ message: 'Admin created successfully', token });
+    }
 });
 
 app.post('/admin/login', (req, res) => {
