@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose')
 
 app.use(express.json());
 
@@ -21,6 +22,34 @@ const authenticateJwt = (req, res, next) => {
         res.sendStatus(401);
     }
 }
+
+// Define mongoose schemas
+const userSchema = new mongoose.Schema({
+    username: String,   // alt - { type: String }
+    password: String,
+    purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }]
+});
+
+const adminSchema = new mongoose.Schema({
+    username: String,
+    password: String
+});
+
+const courseSchema = new mongoose.Schema({
+    title: String,
+    description: String,
+    price: Number,
+    imageLink: String,
+    published: Boolean
+});
+
+// Define mongoose models
+const User = mongoose.model('User', userSchema);
+const Admin = mongoose.model('Admin', adminSchema);
+const Course = mongoose.model('Course', courseSchema);
+
+// Connect to MongoDB
+mongoose.connect('mongodb+srv://GENIUS:genius313@cluster0.nnx2fnq.mongodb.net/course-app', { useNewUrlParser: true, useUnifiedTopology: true, dbName: "course-app" });
 
 // Admin routes
 app.post('/admin/signup', (req, res) => {
