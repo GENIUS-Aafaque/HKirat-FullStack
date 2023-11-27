@@ -85,7 +85,7 @@ app.post('/admin/courses', authenticateJwt, async (req, res) => {
     res.json({ message: 'Course created successfully', courseId: course.id });
 });
 
-app.put('/admin/courses/:courseId', async (req, res) => {
+app.put('/admin/courses/:courseId', authenticateJwt, async (req, res) => {
     // logic to edit a course
     const course = await Course.findByIdAndUpdate(req.params.courseId);
     if (course) {
@@ -95,8 +95,10 @@ app.put('/admin/courses/:courseId', async (req, res) => {
     }
 });
 
-app.get('/admin/courses', (req, res) => {
+app.get('/admin/courses', authenticateJwt, async (req, res) => {
     // logic to get all courses
+    const courses = await Course.find({});
+    res.send({ courses });
 });
 
 // User routes
