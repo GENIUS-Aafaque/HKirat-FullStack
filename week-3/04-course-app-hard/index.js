@@ -49,7 +49,18 @@ const Admin = mongoose.model('Admin', adminSchema);
 const Course = mongoose.model('Course', courseSchema);
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://GENIUS:genius313@cluster0.nnx2fnq.mongodb.net/course-app', { useNewUrlParser: true, useUnifiedTopology: true, dbName: "course-app" });
+mongoose.connect('mongodb+srv://GENIUS:genius313@cluster0.nnx2fnq.mongodb.net/course-app', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: "course-app"
+})
+    .then(() => {
+        console.log('Connected to MongoDB');
+    })
+    .catch((error) => {
+        console.error('MongoDB connection error:', error);
+        process.exit(1);
+    });
 
 // Admin routes
 app.post('/admin/signup', async (req, res) => {
@@ -60,7 +71,7 @@ app.post('/admin/signup', async (req, res) => {
         res.status(403).json({ message: "Admin already exists" });
     } else {
         const newAdmin = new Admin({ username, password });
-        newAdmin.save();
+        await newAdmin.save();
         const token = jwt.sign({ username, role: 'admin' }, SECRET, { expiresIn: '1h' });
         res.json({ message: 'Admin created successfully', token });
     }
