@@ -45,7 +45,18 @@ function App() {
 
 function Todo(props) {
     // Add a delete button here so user can delete a TODO.
-    function deleteTodo() {}
+    function deleteTodo() {
+        // Make an Axios DELETE request to your server
+        axios
+            .delete(`http://localhost:3000/todos/${props.id}`)
+            .then((response) => {
+                console.log("Todo deleted successfully");
+            })
+            .catch((error) => {
+                console.error("Error deleting todo: ", error);
+            });
+    }
+
     return (
         <div id={props.id}>
             {props.title}
