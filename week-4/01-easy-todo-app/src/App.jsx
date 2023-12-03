@@ -9,21 +9,27 @@ function useTodos() {
         axios
             .get("http://localhost:3000/todos")
             .then((response) => {
-                console.log(response.data);
                 setTodos(response.data);
-                console.log(todos[0].title, todos[0].description);
             })
             .catch((error) => {
                 console.log(error);
             });
+        setInterval(() => {
+            axios
+                .get("http://localhost:3000/todos")
+                .then((response) => {
+                    setTodos(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }, 1000);
     }, []);
     return todos;
 }
 
 function App() {
     const todos = useTodos();
-    console.log(todos);
-
     return (
         <>
             <div>
