@@ -29,20 +29,56 @@ function useTodos() {
 }
 
 function App() {
+    const [newTodo, setNewTodo] = useState({ title: "", description: "" });
     const todos = useTodos();
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewTodo((prevTodo) => ({ ...prevTodo, [name]: value }));
+    };
+
+    const handleAddTodo = async () => {
+        try {
+            const response = await axios.post(
+                "http://localhost:3000/todos",
+                newTodo
+            );
+            console.log("Todo created successfully: ", response.data);
+
+            setNewTodo({ title: "", description: "" });
+        } catch (error) {
+            console.error("Error creating todo: ", error);
+        }
+    };
+
     return (
         <>
             <div>
                 <h1>Easy Todo App</h1>
-                <input type="text" />
+                <input
+                    type="text"
+                    placeholder="Title"
+                    name="title"
+                    value={newTodo.title}
+                    onChange={handleInputChange}
+                />
+                <input
+                    type="text"
+                    placeholder="Description"
+                    name="description"
+                    value={newTodo.description}
+                    onChange={handleInputChange}
+                />
+                <button onClick={handleAddTodo}>Add Todo</button>
             </div>
             <div>
                 {todos.map((todo) => (
                     <Todo
+                        key={todo.id}
                         id={todo.id}
                         title={todo.title}
                         description={todo.description}
-                    ></Todo>
+                    />
                 ))}
             </div>
         </>
