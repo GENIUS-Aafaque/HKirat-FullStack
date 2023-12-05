@@ -4,10 +4,12 @@ import React from "react";
 function CreateCourse() {
     const [title, setTitle] = React.useState("");
 
-    return <div>
-        <h1>Create Course Page</h1>
-        <input type={"text"} onChange={e => setTitle(e.target.value)} />
-        <button onClick={() => console.log(title)}>Create Course</button>
-    </div>
+    return (
+        <div>
+            <h1>Create Course Page</h1>
+            <input type={"text"} onChange={(e) => setTitle(e.target.value)} />
+            <button onClick={() => console.log(title)}>Create Course</button>
+        </div>
+    );
 }
 export default CreateCourse;
