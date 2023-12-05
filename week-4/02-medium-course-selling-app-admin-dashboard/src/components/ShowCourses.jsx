@@ -37,9 +37,13 @@ function ShowCourses() {
     return (
         <div>
             <h1>Show Courses Page</h1>
-            {courses.map((c) => (
-                <Course title={c.title} />
-            ))}
+            {console.log(courses)}
+            {courses.length !== 0
+                ? courses.map((c) => {
+                      console.log(c);
+                      return <Course title={c.title} />;
+                  })
+                : "No courses found :("}
         </div>
     );
 }
