@@ -37,11 +37,16 @@ function ShowCourses() {
     return (
         <div>
             <h1>Show Courses Page</h1>
-            {console.log(courses)}
             {courses.length !== 0
                 ? courses.map((c) => {
-                      console.log(c);
-                      return <Course title={c.title} />;
+                      return (
+                          <Course
+                              key={c.id}
+                              title={c.title}
+                              description={c.description}
+                              price={c.price}
+                          />
+                      );
                   })
                 : "No courses found :("}
         </div>
@@ -51,7 +56,8 @@ function ShowCourses() {
 function Course(props) {
     return (
         <div>
-            <h1>{props.title}</h1>
+            <h3>{props.title}</h3>
+            {props.description}: {props.price}
         </div>
     );
 }
