@@ -6,6 +6,19 @@ function Register() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
+    const newRegister = () => {
+        axios
+            .post("http://localhost:3000/admin/signup", {
+                username: email,
+                password: password,
+            })
+            .then(() => {
+                setEmail("");
+                setPassword("");
+                window.location.href = "/courses";
+            });
+    };
+
     return (
         <div>
             <h1>Register to the website</h1>
@@ -18,16 +31,7 @@ function Register() {
             />
             <br />
             <br />
-            <button
-                onClick={() => {
-                    axios.post("http://localhost:3000/admin/signup", {
-                        username: email,
-                        password: password,
-                    });
-                }}
-            >
-                Register
-            </button>
+            <button onClick={newRegister}>Register</button>
             <br />
             <br />
             Already a user? <a href="/login">Login</a>
