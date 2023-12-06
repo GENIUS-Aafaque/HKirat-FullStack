@@ -13,6 +13,8 @@ function ShowCourses() {
                 headers: {
                     username: "sameer",
                     password: 123,
+                    authorization:
+                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbWVlciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwMTg3NTUzOCwiZXhwIjoxNzAxODc5MTM4fQ.ii2g_CeqM22m_lBLbL0jdomuQVhrERlieYEmAEIwGXs",
                 },
             })
             .then((response) => {
@@ -25,6 +27,8 @@ function ShowCourses() {
                     headers: {
                         username: "sameer",
                         password: 123,
+                        authorization:
+                            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbWVlciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwMTg3NTUzOCwiZXhwIjoxNzAxODc5MTM4fQ.ii2g_CeqM22m_lBLbL0jdomuQVhrERlieYEmAEIwGXs",
                     },
                 })
                 .then((response) => {
