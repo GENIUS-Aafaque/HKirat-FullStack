@@ -1,13 +1,10 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 
 /// File is incomplete. You need to add input boxes to take input for users to register.
 function Register() {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-
-    function register() {
-        console.log(email, password);
-    }
 
     return (
         <div>
@@ -21,7 +18,16 @@ function Register() {
             />
             <br />
             <br />
-            <button onClick={register}>Register</button>
+            <button
+                onClick={() => {
+                    axios.post("http://localhost:3000/admin/signup", {
+                        username: email,
+                        password: password,
+                    });
+                }}
+            >
+                Register
+            </button>
             <br />
             <br />
             Already a user? <a href="/login">Login</a>
