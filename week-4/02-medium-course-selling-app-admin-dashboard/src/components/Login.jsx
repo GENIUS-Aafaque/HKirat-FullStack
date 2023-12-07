@@ -68,7 +68,7 @@ function Login() {
                     <br />
                     <br />
                     <Typography fontSize={"caption"} variant="h6">
-                        New user? <a href="/login">Register</a>
+                        New user? <a href="/register">Register</a>
                     </Typography>
                 </Card>
             </center>
