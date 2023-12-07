@@ -4,6 +4,7 @@ import Landing from "./components/Landing";
 import CreateCourse from "./components/CreateCourse";
 import Register from "./components/Register";
 import ShowCourses from "./components/ShowCourses";
+import Appbar from "./components/Appbar";
 import "./App.css";
 
 // This file shows how you can do routing in React.
@@ -13,6 +14,7 @@ import "./App.css";
 function App() {
     return (
         <Router>
+            <Appbar />
             <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/login" element={<Login />} />
