@@ -1,5 +1,9 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { Typography } from "@mui/material";
 
 /// File is incomplete. You need to add input boxes to take input for users to register.
 function Register() {
@@ -20,21 +24,46 @@ function Register() {
     };
 
     return (
-        <div>
-            <h1>Register to the website</h1>
-            <br />
-            <input type={"text"} onChange={(e) => setEmail(e.target.value)} />
-            <br />
-            <input
-                type={"text"}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <br />
-            <br />
-            <button onClick={newRegister}>Register</button>
-            <br />
-            <br />
-            Already a user? <a href="/login">Login</a>
+        <div
+            style={{
+                width: "100vw",
+                height: "100vh",
+                backgroundColor: "#eeeeee",
+                paddingTop: "20vh",
+            }}
+        >
+            <center>
+                <Typography variant="h5">Register to the website</Typography>
+                <br />
+                <Card variant="outlined" style={{ width: 400, padding: "2%" }}>
+                    <TextField
+                        fullWidth
+                        label="Email"
+                        variant="outlined"
+                        type={"text"}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <br />
+                    <br />
+                    <TextField
+                        fullWidth
+                        label="Password"
+                        variant="outlined"
+                        type={"text"}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <br />
+                    <br />
+                    <Button variant="contained" onClick={newRegister}>
+                        Register
+                    </Button>
+                    <br />
+                    <br />
+                    <Typography fontSize={"caption"} variant="h6">
+                        Already a user? <a href="/login">Login</a>
+                    </Typography>
+                </Card>
+            </center>
         </div>
     );
 }
