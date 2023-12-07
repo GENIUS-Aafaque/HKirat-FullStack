@@ -33,7 +33,9 @@ function Register() {
             }}
         >
             <center>
-                <Typography variant="h5">Register to the website</Typography>
+                <Typography variant="h5">
+                    Welcome to COURZERO! Sign up here.
+                </Typography>
                 <br />
                 <Card variant="outlined" style={{ width: 400, padding: "2%" }}>
                     <TextField

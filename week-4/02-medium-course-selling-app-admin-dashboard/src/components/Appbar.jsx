@@ -19,10 +19,13 @@ function Appbar() {
                 <Typography variant="h4">COURZERO</Typography>
             </div>
             <div style={{ display: "flex", gap: 8 }}>
-                <Button variant="contained" onClick={navigate("/register")}>
+                <Button
+                    variant="contained"
+                    onClick={() => navigate("/register")}
+                >
                     Sign Up
                 </Button>
-                <Button variant="contained" onClick={navigate("/login")}>
+                <Button variant="contained" onClick={() => navigate("/login")}>
                     Sign In
                 </Button>
             </div>
