@@ -7,6 +7,7 @@ import axios from "axios";
 function Appbar() {
     const navigate = useNavigate();
     const [username, setUsername] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         axios
@@ -18,7 +19,12 @@ function Appbar() {
             .then((response) => {
                 setUsername(response.data.username);
             });
+        setIsLoading(false);
     }, []);
+
+    if (isLoading) {
+        return <div></div>;
+    }
 
     if (username) {
         return (
@@ -39,7 +45,7 @@ function Appbar() {
                     <Button
                         variant="contained"
                         onClick={() => {
-                            navigate("/");
+                            window.location.href = "/";
                             localStorage.setItem("token", null);
                         }}
                     >
