@@ -13,7 +13,7 @@ function Login() {
     const newLogin = () => {
         axios
             .post(
-                "http://localhost:3000/admin/signup",
+                "http://localhost:3000/admin/login",
                 {},
                 {
                     headers: {
@@ -22,9 +22,10 @@ function Login() {
                     },
                 }
             )
-            .then(() => {
+            .then((response) => {
                 setEmail("");
                 setPassword("");
+                localStorage.setItem("token", response.data.token);
                 window.location.href = "/courses";
             });
     };

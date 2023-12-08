@@ -16,9 +16,10 @@ function Register() {
                 username: email,
                 password: password,
             })
-            .then(() => {
+            .then((response) => {
                 setEmail("");
                 setPassword("");
+                localStorage.setItem("token", response.data.token);
                 window.location.href = "/courses";
             });
     };
