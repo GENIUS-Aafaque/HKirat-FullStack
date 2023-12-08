@@ -32,16 +32,14 @@ function Login() {
     return (
         <div
             style={{
-                width: "100vw",
+                width: "100%",
                 height: "100vh",
                 backgroundColor: "#eeeeee",
                 paddingTop: "20vh",
             }}
         >
             <center>
-                <Typography variant="h5">
-                    Welcome back. Login to COURZERO
-                </Typography>
+                <Typography variant="h5">Welcome back! Login here.</Typography>
                 <br />
                 <Card variant="outlined" style={{ width: 400, padding: "2%" }}>
                     <TextField

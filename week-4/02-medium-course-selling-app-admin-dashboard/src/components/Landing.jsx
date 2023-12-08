@@ -13,16 +13,20 @@ function Landing() {
     return (
         <div
             style={{
-                display: "grid",
+                height: "100vh",
+                width: "100%",
+                display: "flex",
                 justifyContent: "center",
-                paddingTop: 200,
+                alignItems: "center",
+                backgroundColor: "#eeeeee",
             }}
         >
             <Card
                 variant="outlined"
                 style={{
                     width: 400,
-                    padding: 40,
+                    padding: 60,
+                    marginTop: -100,
                     outlineWidth: 4,
                 }}
             >
@@ -34,7 +38,8 @@ function Landing() {
                 </Typography>
                 <br />
                 <br />
-
+                <br />
+                <br />
                 <div
                     style={{
                         display: "flex",
