@@ -37,10 +37,16 @@ function CreateCourse() {
                 placeItems: "center",
             }}
         >
-            <div style={{ marginTop: -100 }}>
-                <Typography align={"center"} variant="h4">
-                    Create New Course
-                </Typography>
+            <div
+                style={{
+                    marginTop: -100,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                }}
+            >
+                <Typography variant="h3">Create New Course</Typography>
+                <br />
                 <Card variant="outlined" style={{ padding: 20, width: 300 }}>
                     <TextField
                         fullWidth
@@ -75,10 +81,7 @@ function CreateCourse() {
                     />
                     <br />
                     <br />
-                    <Button
-                        variant="contained"
-                        onClick={() => console.log(course)}
-                    >
+                    <Button variant="contained" onClick={createCourse}>
                         Create Course
                     </Button>
                 </Card>
