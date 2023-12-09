@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import axios from "axios";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import { TextField } from "@mui/material";
@@ -17,6 +18,14 @@ function CreateCourse() {
             return { ...oldValue, [e.target.name]: e.target.value };
         });
     };
+
+    function createCourse() {
+        axios.post("http://localhost:3000/admin/courses", course, {
+            headers: {
+                authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        });
+    }
 
     return (
         <div
