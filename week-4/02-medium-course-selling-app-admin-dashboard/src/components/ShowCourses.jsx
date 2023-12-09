@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Card, Typography } from "@mui/material";
 
 function ShowCourses() {
     const [courses, setCourses] = useState([]);
@@ -39,29 +40,47 @@ function ShowCourses() {
 
     return (
         <div>
-            <h1>Show Courses Page</h1>
-            {courses.length !== 0
-                ? courses.map((c) => {
-                      return (
-                          <Course
-                              key={c.id}
-                              title={c.title}
-                              description={c.description}
-                              price={c.price}
-                          />
-                      );
-                  })
-                : "No courses found :("}
+            <Typography
+                align="center"
+                variant="h4"
+                style={{ marginTop: 24, marginBottom: 20 }}
+            >
+                Show Courses Page
+            </Typography>
+
+            <div
+                style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 24,
+                    justifyContent: "center",
+                }}
+            >
+                {courses.length !== 0
+                    ? courses.map((c) => {
+                          return (
+                              <Course
+                                  key={c.id}
+                                  title={c.title}
+                                  description={c.description}
+                                  price={c.price}
+                              />
+                          );
+                      })
+                    : "No courses found :("}
+            </div>
         </div>
     );
 }
 
 function Course(props) {
     return (
-        <div>
-            <h3>{props.title}</h3>
-            {props.description}: {props.price}
-        </div>
+        <Card variant="outlined" style={{ width: 300, padding: 12 }}>
+            <Typography variant="h6">{props.title}</Typography>
+            <br />
+            <Typography variant="subtitle">{props.description}</Typography>
+            <Typography variant="subtitle">{props.price}</Typography>
+        </Card>
     );
 }
 
