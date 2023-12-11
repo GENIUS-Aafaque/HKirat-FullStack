@@ -27,13 +27,31 @@ function UpdateCourse() {
 
     if (course.title) {
         return (
-            <div>
-                <CourseCard course={course}></CourseCard>
-                <UpdateCourseCard
-                    courseId={courseId}
-                    course={course}
-                    setCourse={setCourse}
-                ></UpdateCourseCard>
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    paddingTop: 80,
+                }}
+            >
+                <Typography variant="h3">Update Course</Typography>
+                <br />
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: 80,
+                        paddingTop: 20,
+                    }}
+                >
+                    <CourseCard course={course}></CourseCard>
+                    <UpdateCourseCard
+                        courseId={courseId}
+                        course={course}
+                        setCourse={setCourse}
+                    ></UpdateCourseCard>
+                </div>
             </div>
         );
     }
@@ -58,16 +76,7 @@ function CourseCard(props) {
 function UpdateCourseCard(props) {
     const course = props.course;
     return (
-        <div
-            style={{
-                marginTop: -100,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-            }}
-        >
-            <Typography variant="h3">Update Course</Typography>
-            <br />
+        <div>
             <Card variant="outlined" style={{ padding: 20, width: 300 }}>
                 <TextField
                     fullWidth
