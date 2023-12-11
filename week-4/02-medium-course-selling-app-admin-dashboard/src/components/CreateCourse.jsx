@@ -10,6 +10,7 @@ function CreateCourse() {
     const [course, setCourse] = React.useState({
         title: "",
         description: "",
+        imgLink: "",
         price: "",
     });
 
@@ -25,6 +26,13 @@ function CreateCourse() {
                 authorization: "Bearer " + localStorage.getItem("token"),
             },
         });
+        setCourse({
+            title: "",
+            description: "",
+            imgLink: "",
+            price: "",
+        });
+        alert("Course Created Succeccfully");
     }
 
     return (
@@ -66,6 +74,17 @@ function CreateCourse() {
                         type={"text"}
                         name="description"
                         value={course.description}
+                        onChange={handleInputChange}
+                    />
+                    <br />
+                    <br />
+                    <TextField
+                        fullWidth
+                        label="Image Link"
+                        variant="outlined"
+                        type={"text"}
+                        name="imgLink"
+                        value={course.imgLink}
                         onChange={handleInputChange}
                     />
                     <br />
