@@ -39,11 +39,16 @@ function ShowCourses() {
     }, []);
 
     return (
-        <div>
+        <div
+            style={{
+                backgroundColor: "#eeeeee",
+                height: "100vh",
+            }}
+        >
             <Typography
                 align="center"
                 variant="h4"
-                style={{ marginTop: 24, marginBottom: 20 }}
+                style={{ paddingTop: 24, paddingBottom: 20 }}
             >
                 Show Courses Page
             </Typography>
