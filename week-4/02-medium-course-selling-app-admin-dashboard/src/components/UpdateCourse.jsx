@@ -33,6 +33,8 @@ function UpdateCourse() {
                     flexDirection: "column",
                     alignItems: "center",
                     paddingTop: 80,
+                    backgroundColor: "#eeeeee",
+                    height: "100vh",
                 }}
             >
                 <Typography variant="h3">Update Course</Typography>
