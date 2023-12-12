@@ -3,7 +3,7 @@ import axios from "axios";
 import { Card, Typography, TextField, Button } from "@mui/material";
 import { useParams } from "react-router-dom";
 
-function UpdateCourse() {
+function UpdateCourseNoRecoil() {
     const [course, setCourse] = useState({
         title: "",
         description: "",
@@ -182,4 +182,4 @@ function UpdateCourseCard(props) {
     );
 }
 
-export default UpdateCourse;
+export default UpdateCourseNoRecoil;
