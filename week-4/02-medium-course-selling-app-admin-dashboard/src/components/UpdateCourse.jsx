@@ -25,7 +25,7 @@ function UpdateCourse() {
             .catch(() => console.log("error in fetching"));
     }, [courseId]);
 
-    if (course.title) {
+    if (course && course.title) {
         return (
             <div
                 style={{
@@ -55,6 +55,12 @@ function UpdateCourse() {
                     ></UpdateCourseCard>
                 </div>
             </div>
+        );
+    } else {
+        return (
+            <Typography align="center" variant="h4" style={{ paddingTop: 100 }}>
+                No Courses Found
+            </Typography>
         );
     }
 }
