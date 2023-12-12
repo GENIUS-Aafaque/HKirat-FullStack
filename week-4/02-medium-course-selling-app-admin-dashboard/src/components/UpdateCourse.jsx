@@ -2,16 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Card, Typography, TextField, Button } from "@mui/material";
 import { useParams } from "react-router-dom";
-<<<<<<< HEAD
-import {
-    useRecoilState,
-    useRecoilValue,
-    useSetRecoilState,
-    atom,
-} from "recoil";
-=======
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
->>>>>>> 112d1b4630f200e58e79ec6e66ed7a76162fefa6
 
 function UpdateCourse() {
     const setCourse = useSetRecoilState(courseState);
@@ -82,7 +73,6 @@ function CourseCard() {
     }
 }
 
-<<<<<<< HEAD
 function UpdateCourseCard(props) {
     const [course, setCourse] = useRecoilState(courseState);
     if (course && course.title) {
@@ -184,107 +174,6 @@ function UpdateCourseCard(props) {
             </div>
         );
     }
-=======
-function UpdateCourseCard() {
-    const [course, setCourse] = useRecoilState(courseState);
-    return (
-        <div>
-            <Card variant="outlined" style={{ padding: 20, width: 300 }}>
-                <TextField
-                    fullWidth
-                    label="Title"
-                    variant="outlined"
-                    type={"text"}
-                    name="title"
-                    value={course.title}
-                    onChange={(e) => {
-                        setCourse((oldValue) => {
-                            return {
-                                ...oldValue,
-                                [e.target.name]: e.target.value,
-                            };
-                        });
-                    }}
-                />
-                <br />
-                <br />
-                <TextField
-                    fullWidth
-                    label="Description"
-                    variant="outlined"
-                    type={"text"}
-                    name="description"
-                    value={course.description}
-                    onChange={(e) => {
-                        setCourse((oldValue) => {
-                            return {
-                                ...oldValue,
-                                [e.target.name]: e.target.value,
-                            };
-                        });
-                    }}
-                />
-                <br />
-                <br />
-                <TextField
-                    fullWidth
-                    label="Image Link"
-                    variant="outlined"
-                    type={"text"}
-                    name="imgLink"
-                    value={course.imgLink}
-                    onChange={(e) => {
-                        setCourse((oldValue) => {
-                            return {
-                                ...oldValue,
-                                [e.target.name]: e.target.value,
-                            };
-                        });
-                    }}
-                />
-                <br />
-                <br />
-                <TextField
-                    fullWidth
-                    label="Price"
-                    variant="outlined"
-                    type={"number"}
-                    name="price"
-                    value={course.price}
-                    onChange={(e) => {
-                        setCourse((oldValue) => {
-                            return {
-                                ...oldValue,
-                                [e.target.name]: e.target.value,
-                            };
-                        });
-                    }}
-                />
-                <br />
-                <br />
-                <Button
-                    variant="contained"
-                    onClick={() => {
-                        axios.put(
-                            `http://localhost:3000/admin/courses/${props.courseId}`,
-                            course,
-                            {
-                                headers: {
-                                    authorization:
-                                        "Bearer " +
-                                        localStorage.getItem("token"),
-                                },
-                            }
-                        );
-                        alert("Course Updated Succeccfully");
-                    }}
-                >
-                    Update Course
-                </Button>
-            </Card>
-        </div>
-    );
->>>>>>> 112d1b4630f200e58e79ec6e66ed7a76162fefa6
 }
 
 export default UpdateCourse;
