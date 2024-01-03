@@ -21,9 +21,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/auth/signup",
+					"raw": "http://localhost:3000/auth/signup",
 					"host": [
-						"{{base_url}}"
+						"http://localhost:3000"
 					],
 					"path": [
 						"auth",
@@ -54,9 +54,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/auth/login",
+					"raw": "http://localhost:3000/auth/login",
 					"host": [
-						"{{base_url}}"
+						"http://localhost:3000"
 					],
 					"path": [
 						"auth",
@@ -81,9 +81,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/todo/todos",
+					"raw": "http://localhost:3000/todo/todos",
 					"host": [
-						"{{base_url}}"
+						"http://localhost:3000"
 					],
 					"path": [
 						"todo",
@@ -105,9 +105,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/todo/todos",
+					"raw": "http://localhost:3000/todo/todos",
 					"host": [
-						"{{base_url}}"
+						"http://localhost:3000"
 					],
 					"path": [
 						"todo",
@@ -129,9 +129,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/auth/me",
+					"raw": "http://localhost:3000/auth/me",
 					"host": [
-						"{{base_url}}"
+						"http://localhost:3000"
 					],
 					"path": [
 						"auth",
@@ -153,9 +153,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/todo/todos/64bee1b41ed38434adc5b36e/done",
+					"raw": "http://localhost:3000/todo/todos/64bee1b41ed38434adc5b36e/done",
 					"host": [
-						"{{base_url}}"
+						"http://localhost:3000"
 					],
 					"path": [
 						"todo",
