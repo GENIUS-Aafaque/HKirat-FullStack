@@ -1,10 +1,9 @@
-
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const port = 3000;
-const authRoutes = require("./routes/auth");
-const todoRoutes = require("./routes/todo");
+import authRoutes from "./routes/auth";
+import todoRoutes from "./routes/todo";
 const cors = require("cors");
 
 app.use(cors());
