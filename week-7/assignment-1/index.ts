@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express";
 const app = express();
 import mongoose from "mongoose";
 const port = 3000;
 import authRoutes from "./routes/auth";
 import todoRoutes from "./routes/todo";
-const cors = require("cors");
+import cors from "cors";
 
 app.use(cors());
 app.use(express.json());
@@ -12,7 +12,7 @@ app.use("/auth", authRoutes);
 app.use("/todo", todoRoutes);
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-})
+    console.log(`Example app listening at http://localhost:${port}`);
+});
 
 mongoose.connect('mongodb+srv://todo-app:todopass@todo-cluster.qcu5cuh.mongodb.net/', { dbName: "courses" });
